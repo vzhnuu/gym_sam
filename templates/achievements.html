@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Achievements - Gym Management System{% endblock %}
+{% block content %}
+<h1>Gym Achievements</h1>
+{% if achievements %}
+    <div class="achievements-list">
+        {% for achievement in achievements %}
+            <div class="achievement-item">
+                <h3>{{ achievement.title }}</h3>
+                <p>{{ achievement.description }}</p>
+                {% if achievement.image_filename %}
+                    <img src="{{ url_for('uploaded_file', filename=achievement.image_filename) }}" alt="{{ achievement.title }}" class="achievement-image" />
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p>No achievements to display.</p>
+{% endif %}
+{% endblock %}

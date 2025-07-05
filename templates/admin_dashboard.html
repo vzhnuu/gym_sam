@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard - Gym Management System{% endblock %}
+{% block content %}
+<h1>Admin Dashboard</h1>
+
+<h2>Add New Achievement</h2>
+<form method="post" action="{{ url_for('admin_dashboard') }}" enctype="multipart/form-data" class="achievement-form">
+    <label for="title">Title:</label>
+    <input type="text" id="title" name="title" required />
+
+    <label for="description">Description:</label>
+    <textarea id="description" name="description" rows="4" required></textarea>
+
+    <label for="image">Image (optional):</label>
+    <input type="file" id="image" name="image" accept="image/*" />
+
+    <button type="submit">Add Achievement</button>
+</form>
+
+<h2>Existing Achievements</h2>
+{% if achievements %}
+    <div class="achievements-list">
+        {% for achievement in achievements %}
+            <div class="achievement-item">
+                <h3>{{ achievement.title }}</h3>
+                <p>{{ achievement.description }}</p>
+                {% if achievement.image_filename %}
+                    <img src="{{ url_for('uploaded_file', filename=achievement.image_filename) }}" alt="{{ achievement.title }}" class="achievement-image" />
+                {% endif %}
+                <form method="post" action="{{ url_for('delete_achievement', achievement_id=achievement.id) }}" onsubmit="return confirm('Are you sure you want to delete this achievement?');">
+                    <button type="submit" class="delete-button">Delete</button>
+                </form>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p>No achievements added yet.</p>
+{% endif %}
+{% endblock %}
